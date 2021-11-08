@@ -1413,7 +1413,9 @@ declare module "../index" {
          * @param wrapper The wrapper function.
          * @return Returns the new function.
          */
-        wrap<T, TArgs, TResult>(value: T, wrapper: (value: T, ...args: TArgs[]) => TResult): (...args: TArgs[]) => TResult;
+        // wrap<T, TArgs, TResult>(value: T, wrapper: (value: T, ...args: TArgs[]) => TResult): (...args: TArgs[]) => TResult;
+
+        wrap<T extends (...args: any) => any, TResult>(value: T, wrapper: (value: T, ...args: Parameters<T>) => TResult): (...args: Parameters<T>) => TResult;
     }
     interface LoDashImplicitWrapper<TValue> {
         /**
@@ -1421,10 +1423,22 @@ declare module "../index" {
          */
         wrap<TArgs, TResult>(wrapper: (value: TValue, ...args: TArgs[]) => TResult): Function<(...args: TArgs[]) => TResult>;
     }
+    // interface LoDashImplicitWrapper<TValue extends (...args: any) => any> {
+    //     /**
+    //      * @see _.wrap
+    //      */
+    //     wrap<TResult>(wrapper: (value: TValue, ...args: Parameters<TValue>) => TResult): Function<(...args: Parameters<TValue>) => TResult>;
+    // }
     interface LoDashExplicitWrapper<TValue> {
         /**
          * @see _.wrap
          */
         wrap<TArgs, TResult>(wrapper: (value: TValue, ...args: TArgs[]) => TResult): FunctionChain<(...args: TArgs[]) => TResult>;
     }
+    // interface LoDashExplicitWrapper<TValue extends (...args: any) => any> {
+    //     /**
+    //      * @see _.wrap
+    //      */
+    //     wrap<TResult>(wrapper: (value: TValue, ...args: Parameters<TValue>) => TResult): FunctionChain<(...args: Parameters<TValue>) => TResult>;
+    // }
 }
